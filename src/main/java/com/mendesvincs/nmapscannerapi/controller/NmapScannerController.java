@@ -1,12 +1,12 @@
 package com.mendesvincs.nmapscannerapi.controller;
 
+import com.mendesvincs.nmapscannerapi.dto.ScanRequest;
 import com.mendesvincs.nmapscannerapi.model.ScanResult;
 import com.mendesvincs.nmapscannerapi.service.NmapScannerService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/scans")
 public class NmapScannerController {
 
     private final NmapScannerService nmapScannerService;
@@ -15,8 +15,8 @@ public class NmapScannerController {
         this.nmapScannerService = nmapScannerService;
     }
 
-    @GetMapping("/api/scans/run")
-    public ScanResult runScan(@RequestParam String target) {
-        return nmapScannerService.scan(target);
+    @PostMapping("/run")
+    public ScanResult runScan(@RequestBody ScanRequest request) {
+        return nmapScannerService.scan(request.getTarget());
     }
 }
