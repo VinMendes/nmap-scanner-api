@@ -1,4 +1,4 @@
-package com.mendesvincs.nmapscannerapi.model;
+package com.mendesvincs.nmapscannerapi.scan.model;
 
 public class PortResult {
 

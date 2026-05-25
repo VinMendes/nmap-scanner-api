@@ -1,8 +1,8 @@
-package com.mendesvincs.nmapscannerapi.service;
+package com.mendesvincs.nmapscannerapi.scan.service;
 
-import com.mendesvincs.nmapscannerapi.model.ScanResult;
-import com.mendesvincs.nmapscannerapi.scanner.NmapCommandExecutor;
-import com.mendesvincs.nmapscannerapi.parser.NmapXmlParser;
+import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
+import com.mendesvincs.nmapscannerapi.scan.scanner.NmapCommandExecutor;
+import com.mendesvincs.nmapscannerapi.scan.parser.NmapXmlParser;
 import org.springframework.stereotype.Service;
 
 @Service

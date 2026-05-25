@@ -1,4 +1,4 @@
-package com.mendesvincs.nmapscannerapi.dto.comparison;
+package com.mendesvincs.nmapscannerapi.comparison.dto;
 
 public class ScanComparisonSummary {
 

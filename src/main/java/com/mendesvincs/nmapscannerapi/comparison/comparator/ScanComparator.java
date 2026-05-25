@@ -1,12 +1,9 @@
-package com.mendesvincs.nmapscannerapi.comparison;
+package com.mendesvincs.nmapscannerapi.comparison.comparator;
 
-import com.mendesvincs.nmapscannerapi.dto.comparison.HostDifference;
-import com.mendesvincs.nmapscannerapi.dto.comparison.PortDifference;
-import com.mendesvincs.nmapscannerapi.dto.comparison.ScanComparisonResponse;
-import com.mendesvincs.nmapscannerapi.dto.comparison.ScanComparisonSummary;
-import com.mendesvincs.nmapscannerapi.model.HostResult;
-import com.mendesvincs.nmapscannerapi.model.PortResult;
-import com.mendesvincs.nmapscannerapi.model.ScanResult;
+import com.mendesvincs.nmapscannerapi.comparison.dto.*;
+import com.mendesvincs.nmapscannerapi.scan.model.HostResult;
+import com.mendesvincs.nmapscannerapi.scan.model.PortResult;
+import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

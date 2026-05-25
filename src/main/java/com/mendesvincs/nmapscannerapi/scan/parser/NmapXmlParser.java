@@ -1,8 +1,8 @@
-package com.mendesvincs.nmapscannerapi.parser;
+package com.mendesvincs.nmapscannerapi.scan.parser;
 
-import com.mendesvincs.nmapscannerapi.model.HostResult;
-import com.mendesvincs.nmapscannerapi.model.PortResult;
-import com.mendesvincs.nmapscannerapi.model.ScanResult;
+import com.mendesvincs.nmapscannerapi.scan.model.HostResult;
+import com.mendesvincs.nmapscannerapi.scan.model.PortResult;
+import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

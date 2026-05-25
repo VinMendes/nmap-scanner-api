@@ -1,4 +1,4 @@
-package com.mendesvincs.nmapscannerapi.dto;
+package com.mendesvincs.nmapscannerapi.scan.dto;
 
 public class ScanRequest {
 

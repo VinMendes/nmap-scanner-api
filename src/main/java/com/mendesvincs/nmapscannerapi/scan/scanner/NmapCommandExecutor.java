@@ -1,4 +1,4 @@
-package com.mendesvincs.nmapscannerapi.scanner;
+package com.mendesvincs.nmapscannerapi.scan.scanner;
 
 import org.springframework.stereotype.Component;
 

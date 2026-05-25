@@ -1,6 +1,6 @@
-package com.mendesvincs.nmapscannerapi.dto.comparison;
+package com.mendesvincs.nmapscannerapi.comparison.dto;
 
-import com.mendesvincs.nmapscannerapi.model.PortResult;
+import com.mendesvincs.nmapscannerapi.scan.model.PortResult;
 
 import java.util.ArrayList;
 import java.util.List;

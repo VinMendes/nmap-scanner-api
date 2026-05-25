@@ -1,8 +1,8 @@
-package com.mendesvincs.nmapscannerapi.service;
+package com.mendesvincs.nmapscannerapi.comparison.service;
 
-import com.mendesvincs.nmapscannerapi.comparison.ScanComparator;
-import com.mendesvincs.nmapscannerapi.dto.comparison.ScanComparisonResponse;
-import com.mendesvincs.nmapscannerapi.model.ScanResult;
+import com.mendesvincs.nmapscannerapi.comparison.comparator.ScanComparator;
+import com.mendesvincs.nmapscannerapi.comparison.dto.ScanComparisonResponse;
+import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 import org.springframework.stereotype.Service;
 
 @Service

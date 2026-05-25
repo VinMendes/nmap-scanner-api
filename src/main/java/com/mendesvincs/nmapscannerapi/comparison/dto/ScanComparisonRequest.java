@@ -1,6 +1,6 @@
-package com.mendesvincs.nmapscannerapi.dto.comparison;
+package com.mendesvincs.nmapscannerapi.comparison.dto;
 
-import com.mendesvincs.nmapscannerapi.model.ScanResult;
+import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 
 public class ScanComparisonRequest {
 
