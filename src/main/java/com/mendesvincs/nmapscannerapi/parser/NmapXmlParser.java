@@ -1,4 +1,4 @@
-package com.mendesvincs.nmapscannerapi.service.parse;
+package com.mendesvincs.nmapscannerapi.parser;
 
 import com.mendesvincs.nmapscannerapi.model.HostResult;
 import com.mendesvincs.nmapscannerapi.model.PortResult;
