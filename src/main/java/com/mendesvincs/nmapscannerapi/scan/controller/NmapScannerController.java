@@ -28,6 +28,11 @@ public class NmapScannerController {
         return nmapScannerService.findAll();
     }
 
+    @GetMapping("/target/{target}")
+    public List<ScanResult> listScansByTarget(@PathVariable String target) {
+        return nmapScannerService.findByTarget(target);
+    }
+
     @GetMapping("/{scanId}")
     public ScanResult getScan(@PathVariable String scanId) {
         return nmapScannerService.findById(scanId);
