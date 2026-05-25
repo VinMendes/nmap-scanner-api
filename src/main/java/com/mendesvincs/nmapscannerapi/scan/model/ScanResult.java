@@ -3,7 +3,10 @@ package com.mendesvincs.nmapscannerapi.scan.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "scans")
 public class ScanResult {
 
     /*
@@ -18,6 +21,8 @@ public class ScanResult {
      * Dentro dela ficam os hosts, e dentro de cada host ficam as portas.
      */
 
+    @Id
+    private String id;
     private String target;
     private LocalDateTime scanDate;
     private List<HostResult> hosts;
@@ -86,6 +91,14 @@ public class ScanResult {
 
     public String getTarget() {
         return target;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setTarget(String target) {
