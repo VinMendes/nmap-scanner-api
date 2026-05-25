@@ -4,8 +4,26 @@ import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 
 public class ScanComparisonRequest {
 
+    private String baseScanId;
+    private String newScanId;
     private ScanResult baseScan;
     private ScanResult newScan;
+
+    public String getBaseScanId() {
+        return baseScanId;
+    }
+
+    public void setBaseScanId(String baseScanId) {
+        this.baseScanId = baseScanId;
+    }
+
+    public String getNewScanId() {
+        return newScanId;
+    }
+
+    public void setNewScanId(String newScanId) {
+        this.newScanId = newScanId;
+    }
 
     public ScanResult getBaseScan() {
         return baseScan;
