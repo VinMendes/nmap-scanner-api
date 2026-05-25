@@ -38,6 +38,10 @@ public class NmapScannerService {
         return scanResultRepository.findAllByOrderByScanDateDesc();
     }
 
+    public List<ScanResult> findByTarget(String target) {
+        return scanResultRepository.findAllByTargetOrderByScanDateDesc(target);
+    }
+
     public ScanResult findById(String scanId) {
         return scanResultRepository.findById(scanId)
                 .orElseThrow(() -> new ResponseStatusException(
