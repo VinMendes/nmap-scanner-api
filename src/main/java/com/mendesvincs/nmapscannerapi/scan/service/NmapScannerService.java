@@ -4,7 +4,11 @@ import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 import com.mendesvincs.nmapscannerapi.scan.parser.NmapXmlParser;
 import com.mendesvincs.nmapscannerapi.scan.repository.ScanResultRepository;
 import com.mendesvincs.nmapscannerapi.scan.scanner.NmapCommandExecutor;
+import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class NmapScannerService {
@@ -28,5 +32,17 @@ public class NmapScannerService {
         ScanResult scanResult = nmapXmlParser.parse(target, xmlOutput);
 
         return scanResultRepository.save(scanResult);
+    }
+
+    public List<ScanResult> findAll() {
+        return scanResultRepository.findAllByOrderByScanDateDesc();
+    }
+
+    public ScanResult findById(String scanId) {
+        return scanResultRepository.findById(scanId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        NOT_FOUND,
+                        "Scan not found: " + scanId
+                ));
     }
 }

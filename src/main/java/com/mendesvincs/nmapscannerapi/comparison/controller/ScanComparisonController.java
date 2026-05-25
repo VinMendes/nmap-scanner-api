@@ -17,9 +17,6 @@ public class ScanComparisonController {
 
     @PostMapping("/compare")
     public ScanComparisonResponse compareScans(@RequestBody ScanComparisonRequest request) {
-        return scanComparisonService.compare(
-                request.getBaseScan(),
-                request.getNewScan()
-        );
+        return scanComparisonService.compare(request);
     }
 }

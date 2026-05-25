@@ -3,6 +3,7 @@ package com.mendesvincs.nmapscannerapi.scan.controller;
 import com.mendesvincs.nmapscannerapi.scan.dto.ScanRequest;
 import com.mendesvincs.nmapscannerapi.scan.model.ScanResult;
 import com.mendesvincs.nmapscannerapi.scan.service.NmapScannerService;
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,16 @@ public class NmapScannerController {
     @PostMapping("/run")
     public ScanResult runScan(@RequestBody ScanRequest request) {
         return nmapScannerService.scan(request.getTarget());
+    }
+
+    @GetMapping
+    public List<ScanResult> listScans() {
+        return nmapScannerService.findAll();
+    }
+
+    @GetMapping("/{scanId}")
+    public ScanResult getScan(@PathVariable String scanId) {
+        return nmapScannerService.findById(scanId);
     }
 
 }
