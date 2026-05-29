@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  console.log("Dashboard carregado");
+  console.log("🚀 Dashboard iniciado");
 
+  // ===============================
+  // ELEMENTOS DO HTML
+  // ===============================
   const tableBody = document.querySelector(".history-table tbody");
 
   const hostsCount = document.getElementById("hosts-count");
@@ -10,81 +13,140 @@ document.addEventListener("DOMContentLoaded", () => {
   const alertsCount = document.getElementById("alerts-count");
   const lastScan = document.getElementById("last-scan");
 
-  // 🔥 TENTA BUSCAR DA API
+  // ===============================
+  // BUSCAR DADOS DA API
+  // ===============================
   fetch("http://127.0.0.1:8000/api/scans")
-    .then(res => {
-      if (!res.ok) throw new Error("Erro na API");
-      return res.json();
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erro ao acessar API");
+      }
+      return response.json();
     })
     .then(data => {
 
-      console.log("Dados da API:", data);
+      console.log("📡 Dados recebidos:", data);
 
-      // ======================
-      // CARDS
-      // ======================
-      if (hostsCount) hostsCount.textContent = data.length;
-      if (newHosts) newHosts.textContent = Math.min(3, data.length);
-      if (portsCount) portsCount.textContent = data.length * 2;
-      if (alertsCount) alertsCount.textContent = Math.floor(data.length / 2);
+      // Garante que é array
+      const scans = Array.isArray(data) ? data : data.results || [];
 
-      if (lastScan && data.length > 0) {
-        lastScan.textContent = data[0].timestamp || "--";
+      if (!scans.length) {
+        console.warn("⚠️ API retornou vazio");
+        return;
       }
 
-      // ======================
-      // TABELA
-      // ======================
-      tableBody.innerHTML = "";
+      // ===============================
+      // ATUALIZAR CARDS
+      // ===============================
+      atualizarCards(scans);
 
-      data.forEach(item => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td>${item.evento || "Scan"}</td>
-          <td>${item.ip || "-"}</td>
-          <td>${item.timestamp || "-"}</td>
-        `;
-
-        tableBody.appendChild(row);
-      });
+      // ===============================
+      // ATUALIZAR TABELA
+      // ===============================
+      preencherTabela(scans);
 
     })
-    .catch(err => {
-      console.error("Erro ao conectar com API:", err);
-
-      // 🧪 fallback (pra você ver funcionando mesmo com erro)
-      preencherMock();
+    .catch(error => {
+      console.error("❌ Erro ao buscar dados:", error);
     });
 
-  // 🔥 fallback se API falhar
-  function preencherMock() {
+  // ===============================
+  // FUNÇÃO: ATUALIZAR CARDS
+  // ===============================
+  function atualizarCards(scans) {
 
-    const mock = [
-      { evento: "Novo host", ip: "192.168.0.10", timestamp: "10:20" },
-      { evento: "Porta aberta", ip: "192.168.0.12", timestamp: "10:10" },
-      { evento: "Host removido", ip: "192.168.0.5", timestamp: "09:50" }
-    ];
+    // Total de registros
+    if (hostsCount) {
+      hostsCount.textContent = scans.length;
+    }
+
+    // Novos (últimos 3 como exemplo)
+    if (newHosts) {
+      newHosts.textContent = scans.slice(0, 3).length;
+    }
+
+    // Portas (se existir campo real, substitui depois)
+    if (portsCount) {
+      portsCount.textContent = scans.length * 2;
+    }
+
+    // Alertas (baseado em status)
+    if (alertsCount) {
+      const totalAlertas = scans.filter(item =>
+        item.status === "alert" ||
+        item.status === "critical"
+      ).length;
+
+      alertsCount.textContent = totalAlertas;
+    }
+
+    // Último scan
+    if (lastScan) {
+      const ultimo = scans[0];
+
+      lastScan.textContent =
+        formatarData(
+          ultimo.timestamp ||
+          ultimo.created_at ||
+          ultimo.date
+        ) || "--";
+    }
+  }
+
+  // ===============================
+  // FUNÇÃO: PREENCHER TABELA
+  // ===============================
+  function preencherTabela(scans) {
+
+    if (!tableBody) return;
 
     tableBody.innerHTML = "";
 
-    mock.forEach(item => {
+    scans.forEach(item => {
+
+      // 🔎 tenta encontrar os campos certos
+      const evento =
+        item.evento ||
+        item.status ||
+        item.type ||
+        "Scan";
+
+      const ip =
+        item.ip ||
+        item.ip_address ||
+        item.host ||
+        "N/A";
+
+      const dataHora =
+        item.timestamp ||
+        item.created_at ||
+        item.date ||
+        "N/A";
+
       const row = document.createElement("tr");
 
       row.innerHTML = `
-        <td>${item.evento}</td>
-        <td>${item.ip}</td>
-        <td>${item.timestamp}</td>
+        <td>${evento}</td>
+        <td>${ip}</td>
+        <td>${formatarData(dataHora)}</td>
       `;
 
       tableBody.appendChild(row);
     });
+  }
 
-    hostsCount.textContent = mock.length;
-    newHosts.textContent = 1;
-    portsCount.textContent = 5;
-    alertsCount.textContent = 1;
-    lastScan.textContent = "Agora";
+  // ===============================
+  // FUNÇÃO: FORMATAR DATA
+  // ===============================
+  function formatarData(valor) {
+    if (!valor) return "--";
+
+    try {
+      const data = new Date(valor);
+      return data.toLocaleString("pt-BR");
+    } catch {
+      return valor;
+    }
   }
 
 });
