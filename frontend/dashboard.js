@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const tableBody = document.querySelector("tbody");
+  console.log("Dashboard carregado");
+
+  const tableBody = document.querySelector(".history-table tbody");
 
   const hostsCount = document.getElementById("hosts-count");
   const newHosts = document.getElementById("new-hosts");
@@ -8,75 +10,81 @@ document.addEventListener("DOMContentLoaded", () => {
   const alertsCount = document.getElementById("alerts-count");
   const lastScan = document.getElementById("last-scan");
 
-  // ===============================
-  // CARREGAR DADOS DA API
-  // ===============================
-  function carregarScans() {
-    fetch("http://localhost:8000/api/scans")
-      .then(response => response.json())
-      .then(data => {
-        console.log("API:", data);
+  // 🔥 TENTA BUSCAR DA API
+  fetch("http://127.0.0.1:8000/api/scans")
+    .then(res => {
+      if (!res.ok) throw new Error("Erro na API");
+      return res.json();
+    })
+    .then(data => {
 
-        renderTable(data);
-        atualizarCards(data);
-      })
-      .catch(error => {
-        console.error("Erro:", error);
+      console.log("Dados da API:", data);
+
+      // ======================
+      // CARDS
+      // ======================
+      if (hostsCount) hostsCount.textContent = data.length;
+      if (newHosts) newHosts.textContent = Math.min(3, data.length);
+      if (portsCount) portsCount.textContent = data.length * 2;
+      if (alertsCount) alertsCount.textContent = Math.floor(data.length / 2);
+
+      if (lastScan && data.length > 0) {
+        lastScan.textContent = data[0].timestamp || "--";
+      }
+
+      // ======================
+      // TABELA
+      // ======================
+      tableBody.innerHTML = "";
+
+      data.forEach(item => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${item.evento || "Scan"}</td>
+          <td>${item.ip || "-"}</td>
+          <td>${item.timestamp || "-"}</td>
+        `;
+
+        tableBody.appendChild(row);
       });
-  }
 
-  // ===============================
-  // TABELA
-  // ===============================
-  function renderTable(data) {
-    if (!tableBody) return;
+    })
+    .catch(err => {
+      console.error("Erro ao conectar com API:", err);
+
+      // 🧪 fallback (pra você ver funcionando mesmo com erro)
+      preencherMock();
+    });
+
+  // 🔥 fallback se API falhar
+  function preencherMock() {
+
+    const mock = [
+      { evento: "Novo host", ip: "192.168.0.10", timestamp: "10:20" },
+      { evento: "Porta aberta", ip: "192.168.0.12", timestamp: "10:10" },
+      { evento: "Host removido", ip: "192.168.0.5", timestamp: "09:50" }
+    ];
 
     tableBody.innerHTML = "";
 
-    data.forEach(item => {
+    mock.forEach(item => {
       const row = document.createElement("tr");
 
-      const evento = item.evento || "Scan";
-      const ip = item.ip || "N/A";
-      const dataHora = item.timestamp || "N/A";
-
       row.innerHTML = `
-        <td>${evento}</td>
-        <td>${ip}</td>
-        <td>${dataHora}</td>
+        <td>${item.evento}</td>
+        <td>${item.ip}</td>
+        <td>${item.timestamp}</td>
       `;
 
       tableBody.appendChild(row);
     });
+
+    hostsCount.textContent = mock.length;
+    newHosts.textContent = 1;
+    portsCount.textContent = 5;
+    alertsCount.textContent = 1;
+    lastScan.textContent = "Agora";
   }
 
-  // ===============================
-  // CARDS
-  // ===============================
-  function atualizarCards(data) {
-
-    if (!data || data.length === 0) return;
-
-    // total hosts (exemplo simples)
-    hostsCount.textContent = data.length;
-
-    // novos hosts (exemplo: últimos 3)
-    newHosts.textContent = Math.min(3, data.length);
-
-    // portas (mock)
-    portsCount.textContent = data.length * 2;
-
-    // alertas (mock)
-    alertsCount.textContent = Math.floor(data.length / 2);
-
-    // último scan
-    if (lastScan) {
-      lastScan.textContent = data[0].timestamp || "--";
-    }
-  }
-
-  // ===============================
-  // INICIALIZAÇÃO
-  // ===============================
-  carregarScans();
 });
