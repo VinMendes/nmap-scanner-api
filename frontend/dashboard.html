@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h1>Monitor de Rede</h1>
+    <nav>
+      <a href="#">Início</a>
+      <a href="#" class="active">Dashboard</a>
+      <a href="#">Nova Varredura</a>
+      <a href="#">Resultado</a>
+    </nav>
+  </aside>
+
+  <!-- Conteúdo -->
+  <main class="main">
+
+    <header class="topbar">
+      <h2>Dashboard</h2>
+    </header>
+
+    <!-- Cards -->
+    <section class="cards">
+      <div class="card">
+        <h3>Hosts ativos</h3>
+        <p>42</p>
+      </div>
+
+      <div class="card">
+        <h3>Novos hosts</h3>
+        <p>3</p>
+      </div>
+
+      <div class="card">
+        <h3>Portas abertas</h3>
+        <p>128</p>
+      </div>
+
+      <div class="card alert">
+        <h3>Alertas</h3>
+        <p>2</p>
+      </div>
+    </section>
+
+    <!-- Tabela -->
+    <section class="table-section">
+      <table>
+        <thead>
+          <tr>
+            <th>Evento</th>
+            <th>Detalhes</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Novo host</td>
+            <td>192.168.0.45</td>
+            <td>10:42</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
