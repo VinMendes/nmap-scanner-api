@@ -1,310 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nmap Scan Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+  <title>Scanner Nmap</title>
 
-    body {
-      background: #0f172a;
-      color: #e5e7eb;
-      padding: 30px;
-    }
-
-    header {
-      margin-bottom: 30px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: #94a3b8;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-
-    .summary-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      padding: 20px;
-      border-radius: 14px;
-    }
-
-    .summary-card span {
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    .summary-card strong {
-      display: block;
-      font-size: 28px;
-      margin-top: 8px;
-      color: #38bdf8;
-    }
-
-    .scan-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    }
-
-    .scan-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .target {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .date {
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-left: 8px;
-    }
-
-    .up {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-    }
-
-    .open {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-    }
-
-    .filtered {
-      background: rgba(250, 204, 21, 0.15);
-      color: #facc15;
-    }
-
-    .unknown {
-      background: rgba(148, 163, 184, 0.15);
-      color: #cbd5e1;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      overflow: hidden;
-      border-radius: 12px;
-    }
-
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #334155;
-      font-size: 14px;
-    }
-
-    th {
-      color: #94a3b8;
-      background: #0f172a;
-    }
-
-    tr:hover {
-      background: #263449;
-    }
-
-    .ip {
-      color: #38bdf8;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    .empty {
-      color: #64748b;
-      font-style: italic;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
+
 <header>
-  <h1>Dashboard de Scans Nmap</h1>
-  <p class="subtitle">Visualização dos resultados retornados pela API</p>
+  <h1>Scanner Nmap</h1>
+
+  <p class="subtitle">
+    Execute um novo scan informando o target
+  </p>
+
+  <nav>
+    <a href="/">Scanner</a>
+    <a href="/historico/index.html">Histórico</a>
+  </nav>
 </header>
 
-<section class="summary">
-  <div class="summary-card">
-    <span>Total de scans</span>
-    <strong id="totalScans">0</strong>
+<section class="scan-card">
+
+  <label for="target">Target</label>
+
+  <div class="form-row">
+    <input
+            id="target"
+            type="text"
+            value="localhost"
+            placeholder="Ex: localhost, 192.168.0.1"
+    >
+
+    <button onclick="rodarScan()">
+      Rodar scan
+    </button>
   </div>
 
-  <div class="summary-card">
-    <span>Total de hosts</span>
-    <strong id="totalHosts">0</strong>
-  </div>
+  <p id="statusMessage" class="subtitle"></p>
 
-  <div class="summary-card">
-    <span>Portas abertas</span>
-    <strong id="openPorts">0</strong>
-  </div>
-
-  <div class="summary-card">
-    <span>Portas filtradas</span>
-    <strong id="filteredPorts">0</strong>
-  </div>
 </section>
 
-<main id="scanContainer"></main>
+<main id="resultadoContainer"></main>
 
-<script>
-  async function carregarScans() {
-    try {
-      const response = await fetch("http://localhost:8000/api/scans");
-      const scans = await response.json();
+<script src="/js/scanner.js"></script>
 
-      renderizarResumo(scans);
-      renderizarScans(scans);
-    } catch (error) {
-      document.getElementById("scanContainer").innerHTML = `
-          <div class="scan-card">
-            <h2>Erro ao carregar scans</h2>
-            <p class="empty">${error.message}</p>
-          </div>
-        `;
-    }
-  }
-
-  function renderizarResumo(scans) {
-    let totalHosts = 0;
-    let openPorts = 0;
-    let filteredPorts = 0;
-
-    scans.forEach(scan => {
-      const hosts = scan.hosts || [];
-      totalHosts += hosts.length;
-
-      hosts.forEach(host => {
-        const ports = host.ports || [];
-
-        ports.forEach(port => {
-          if (port.state === "open") openPorts++;
-          if (port.state === "filtered") filteredPorts++;
-        });
-      });
-    });
-
-    document.getElementById("totalScans").textContent = scans.length;
-    document.getElementById("totalHosts").textContent = totalHosts;
-    document.getElementById("openPorts").textContent = openPorts;
-    document.getElementById("filteredPorts").textContent = filteredPorts;
-  }
-
-  function renderizarScans(scans) {
-    const container = document.getElementById("scanContainer");
-    container.innerHTML = "";
-
-    scans.forEach(scan => {
-      const card = document.createElement("div");
-      card.className = "scan-card";
-
-      const target = scan.target || "Target não informado";
-      const data = formatarData(scan.scanDate);
-
-      card.innerHTML = `
-          <div class="scan-header">
-            <div>
-              <div class="target">${target}</div>
-              <div class="date">ID: ${scan.id || "sem id"}</div>
-            </div>
-            <div class="date">${data}</div>
-          </div>
-        `;
-
-      const hosts = scan.hosts || [];
-
-      hosts.forEach(host => {
-        const hostBlock = document.createElement("div");
-
-        hostBlock.innerHTML = `
-            <div class="ip">
-              Host: ${host.ip || "IP não informado"}
-              <span class="badge ${host.status || "unknown"}">
-                ${host.status || "unknown"}
-              </span>
-            </div>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>Porta</th>
-                  <th>Protocolo</th>
-                  <th>Estado</th>
-                  <th>Serviço</th>
-                  <th>Produto</th>
-                  <th>Versão</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${(host.ports || []).map(port => `
-                  <tr>
-                    <td>${port.port ?? "-"}</td>
-                    <td>${port.protocol || "-"}</td>
-                    <td>
-                      <span class="badge ${port.state || "unknown"}">
-                        ${port.state || "unknown"}
-                      </span>
-                    </td>
-                    <td>${port.service || "-"}</td>
-                    <td>${port.product || "-"}</td>
-                    <td>${port.version || "-"}</td>
-                  </tr>
-                `).join("")}
-              </tbody>
-            </table>
-          `;
-
-        card.appendChild(hostBlock);
-      });
-
-      container.appendChild(card);
-    });
-  }
-
-  function formatarData(dataISO) {
-    if (!dataISO) return "Data não informada";
-
-    return new Date(dataISO).toLocaleString("pt-BR", {
-      dateStyle: "short",
-      timeStyle: "medium"
-    });
-  }
-
-  carregarScans();
-</script>
 </body>
 </html>
