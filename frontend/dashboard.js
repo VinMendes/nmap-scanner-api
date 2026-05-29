@@ -1,43 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const tableBody = document.querySelector("tbody");
-  const historyCount = document.getElementById("history-count");
+
+  const hostsCount = document.getElementById("hosts-count");
+  const newHosts = document.getElementById("new-hosts");
+  const portsCount = document.getElementById("ports-count");
+  const alertsCount = document.getElementById("alerts-count");
+  const lastScan = document.getElementById("last-scan");
 
   // ===============================
-  // NORMALIZAR TEXTO (igual ao seu)
+  // CARREGAR DADOS DA API
   // ===============================
-  function normalizeText(text) {
-    return text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+  function carregarScans() {
+    fetch("http://localhost:8000/api/scans")
+      .then(response => response.json())
+      .then(data => {
+        console.log("API:", data);
+
+        renderTable(data);
+        atualizarCards(data);
+      })
+      .catch(error => {
+        console.error("Erro:", error);
+      });
   }
 
   // ===============================
-  // ATUALIZAR CONTADOR
-  // ===============================
-  function updateVisibleCount(total) {
-    if (historyCount) {
-      historyCount.textContent = `Mostrando ${total} registros`;
-    }
-  }
-
-  // ===============================
-  // RENDERIZAR TABELA
+  // TABELA
   // ===============================
   function renderTable(data) {
     if (!tableBody) return;
 
     tableBody.innerHTML = "";
 
-    data.forEach((item) => {
-
+    data.forEach(item => {
       const row = document.createElement("tr");
 
-      // 🔥 adapta aqui conforme sua API
       const evento = item.evento || "Scan";
-      const ip = item.ip || item.host || "N/A";
-      const dataHora = item.data || item.timestamp || "N/A";
+      const ip = item.ip || "N/A";
+      const dataHora = item.timestamp || "N/A";
 
       row.innerHTML = `
         <td>${evento}</td>
@@ -45,29 +46,33 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${dataHora}</td>
       `;
 
-      // usado no filtro (igual seu padrão)
-      row.dataset.search = normalizeText(`${evento} ${ip} ${dataHora}`);
-
       tableBody.appendChild(row);
     });
-
-    updateVisibleCount(data.length);
   }
 
   // ===============================
-  // BUSCAR DADOS DA API
+  // CARDS
   // ===============================
-  function carregarScans() {
-    fetch("http://localhost:8000/api/scans")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Scans:", data);
+  function atualizarCards(data) {
 
-        renderTable(data);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar scans:", error);
-      });
+    if (!data || data.length === 0) return;
+
+    // total hosts (exemplo simples)
+    hostsCount.textContent = data.length;
+
+    // novos hosts (exemplo: últimos 3)
+    newHosts.textContent = Math.min(3, data.length);
+
+    // portas (mock)
+    portsCount.textContent = data.length * 2;
+
+    // alertas (mock)
+    alertsCount.textContent = Math.floor(data.length / 2);
+
+    // último scan
+    if (lastScan) {
+      lastScan.textContent = data[0].timestamp || "--";
+    }
   }
 
   // ===============================
