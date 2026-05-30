@@ -225,11 +225,11 @@ function configurarBusca() {
 
 function irParaComparacao(scanId) {
   if (!scanId) {
-    window.location.href = "/pages/comparacao.html";
+    window.location.href = "/comparacao.html";
     return;
   }
 
-  window.location.href = `/pages/comparacao.html?scanId=${scanId}`;
+  window.location.href = `/comparacao.html`;
 }
 
 function formatarData(dataISO) {
