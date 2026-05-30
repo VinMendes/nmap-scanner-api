@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Nova Varredura | Monitor de Alterações</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="novavarredura.css">
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Monitor de Alterações em Rede</h1>
+      <p>Network Intelligence</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-link" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span>Início</span>
+      </a>
+      
+      <a class="nav-link" href="telainicial.html">
+        <span class="material-symbols-outlined">analytics</span>
+        <span>Inicio</span>
+      </a>
+      <a class="nav-link" href="dashboard.html">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="nav-link active" href="nova-varredura.html">
+        <span class="material-symbols-outlined">radar</span>
+        <span>Nova Varredura</span>
+      </a>
+
+      <a class="nav-link" href="resultadoScan.html">
+        <span class="material-symbols-outlined">analytics</span>
+        <span>Resultado</span>
+    </a>
+
+      <a class="nav-link" href="historico.html">
+        <span class="material-symbols-outlined">history</span>
+        <span>Histórico</span>
+      </a>
+
+      <a class="nav-link" href="comparacao.html">
+        <span class="material-symbols-outlined">analytics</span>
+        <span>Comparação</span>
+    </a>
+    </nav>
+  </aside>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <h2>Nova Varredura</h2>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="main-content">
+
+    <section class="form-section">
+
+      <div class="form-card">
+
+        <div class="form-header">
+          <span class="material-symbols-outlined">radar</span>
+          <h3>Configurar Varredura</h3>
+          <p>Defina os parâmetros técnicos</p>
+        </div>
+
+        <form id="scan-form">
+
+          <!-- Nome -->
+          <div class="form-group">
+            <label>Nome da varredura</label>
+            <input type="text" id="scan-name" required>
+          </div>
+
+          <!-- Rede -->
+          <div class="form-group">
+            <label>Rede (IP/CIDR)</label>
+            <input type="text" id="scan-target" placeholder="192.168.0.0/24" required>
+          </div>
+
+          <!-- Opções -->
+          <div class="form-options">
+
+            <label>
+              <input type="checkbox" id="hosts">
+              Detectar hosts
+            </label>
+
+            <label>
+              <input type="checkbox" id="ports">
+              Verificar portas
+            </label>
+
+            <label>
+              <input type="checkbox" id="services">
+              Identificar serviços
+            </label>
+
+            <label>
+              <input type="checkbox" id="hostname">
+              Detectar hostname
+            </label>
+
+          </div>
+
+          <!-- Botão -->
+          <button type="submit" class="btn-primary">
+            <span class="material-symbols-outlined">play_arrow</span>
+            Iniciar Varredura
+          </button>
+
+        </form>
+
+      </div>
+
+      <footer class="warning">
+        ⚠ Use apenas em redes autorizadas
+      </footer>
+
+    </section>
+
+  </main>
+
+  <script src="novavarredura.js"></script>
+</body>
+</html>
