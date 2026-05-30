@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Monitor de Alterações em Rede - Resultado da Varredura</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Ícones -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet"
+  />
+
+
+  <link rel="stylesheet" href="resultadoScan.css" />
+</head>
+
+<body>
+  <!-- Menu lateral -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Monitor de Alterações em Rede</h1>
+      <p>Network Intelligence</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">home</span>
+        <span>Início</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">radar</span>
+        <span>Nova Varredura</span>
+      </a>
+
+      <a class="nav-link active" href="#">
+        <span class="material-symbols-outlined">analytics</span>
+        <span>Resultado</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">history</span>
+        <span>Histórico</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">compare_arrows</span>
+        <span>Comparação</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="topbar-title">
+      <h2>Resultado</h2>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="icon-button notification-button" type="button" aria-label="Notificações">
+        <span class="material-symbols-outlined">notifications</span>
+        <span class="notification-dot"></span>
+      </button>
+
+      <button class="icon-button" type="button" aria-label="Configurações">
+        <span class="material-symbols-outlined">settings</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <!-- Cabeçalho da página -->
+    <section class="page-header">
+      <div>
+        <h1>Resultado da Varredura</h1>
+        <p>Análise dos hosts, portas e serviços encontrados na rede.</p>
+      </div>
+
+      <div class="status-badge">
+        <span class="status-pulse">
+          <span class="pulse-animation"></span>
+          <span class="pulse-dot"></span>
+        </span>
+        <span>Varredura concluída</span>
+      </div>
+    </section>
+
+    <!-- Cards de resumo -->
+    <section class="summary-grid">
+      <article class="summary-card">
+        <div class="card-icon">
+          <span class="material-symbols-outlined">devices</span>
+        </div>
+
+        <p>Hosts encontrados</p>
+        <h3>15</h3>
+      </article>
+
+      <article class="summary-card">
+        <div class="card-icon">
+          <span class="material-symbols-outlined">settings_input_component</span>
+        </div>
+
+        <p>Portas abertas</p>
+        <h3>8</h3>
+      </article>
+
+      <article class="summary-card">
+        <div class="card-icon">
+          <span class="material-symbols-outlined">warning</span>
+        </div>
+
+        <p>Alertas</p>
+        <h3>0</h3>
+      </article>
+    </section>
+
+    <!-- Tabela de dispositivos -->
+    <section class="table-card">
+      <div class="table-header">
+        <h3>Lista de Dispositivos</h3>
+
+        <div class="table-actions">
+          <button class="small-button" type="button" aria-label="Filtrar">
+            <span class="material-symbols-outlined">filter_list</span>
+          </button>
+
+          <button class="small-button" type="button" aria-label="Pesquisar">
+            <span class="material-symbols-outlined">search</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>IP</th>
+              <th>Hostname</th>
+              <th>Portas</th>
+              <th>Serviço</th>
+              <th class="text-right">Ação</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>192.168.0.1</td>
+              <td class="hostname">Gateway</td>
+              <td>
+                <span class="port-tag">80</span>
+                <span class="port-tag">443</span>
+              </td>
+              <td class="muted">HTTP/S</td>
+              <td class="text-right">
+                <button class="row-action" type="button" aria-label="Mais opções">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>192.168.0.10</td>
+              <td class="hostname">Server-01</td>
+              <td>
+                <span class="port-tag">22</span>
+                <span class="port-tag">8080</span>
+              </td>
+              <td class="muted">SSH, HTTP</td>
+              <td class="text-right">
+                <button class="row-action" type="button" aria-label="Mais opções">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>192.168.0.45</td>
+              <td class="hostname">Desktop-User</td>
+              <td class="muted italic">-</td>
+              <td class="muted italic">-</td>
+              <td class="text-right">
+                <button class="row-action" type="button" aria-label="Mais opções">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+              </td>
+            </tr>
+
+            <tr class="disabled-row">
+              <td>192.168.0.102</td>
+              <td class="hostname">Printer-HP</td>
+              <td class="muted italic">9100</td>
+              <td class="muted italic">JetDirect</td>
+              <td class="text-right">
+                <button class="row-action" type="button" aria-label="Mais opções">
+                  <span class="material-symbols-outlined">more_vert</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Botões finais -->
+    <footer class="footer-actions">
+      <button class="button button-outline" type="button">
+        Salvar Resultado
+      </button>
+
+      <button class="button button-dark" type="button">
+        <span class="material-symbols-outlined">compare_arrows</span>
+        Comparar
+      </button>
+    </footer>
+  </main>
+
+  <script src="resultadoScan.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitor de Alterações em Rede</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="telainicial.css" />
+  <link rel="stylesheet" href="layout.css" />
+</head>
+
+<body>
+  <!-- Menu lateral -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>Monitor de Alterações em Rede</h1>
+      <p>Monitoramento de Rede</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-link active" href="index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span>Início</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">radar</span>
+        <span>Nova Varredura</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">analytics</span>
+        <span>Resultado</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">history</span>
+        <span>Histórico</span>
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="material-symbols-outlined">compare_arrows</span>
+        <span>Comparação</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="topbar-title">
+      <span>Início</span>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="search-box">
+        <span class="material-symbols-outlined">search</span>
+        <input type="text" placeholder="Pesquisar hosts, IPs ou varreduras..." />
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main class="main-content">
+    <div class="content-container">
+
+      <!-- Cabeçalho da página -->
+      <section class="hero-section">
+        <div class="hero-text">
+          <h2>Visão Geral da Rede</h2>
+          <p>Sistema de detecção de alterações em rede por comparação de varreduras.</p>
+        </div>
+
+        <div class="hero-actions">
+          <button class="button button-primary" type="button">
+            <span class="material-symbols-outlined">add_circle</span>
+            Nova Varredura
+          </button>
+
+          <button class="button button-secondary" type="button">
+            <span class="material-symbols-outlined">history</span>
+            Ver Histórico
+          </button>
+        </div>
+      </section>
+
+      <!-- Cards de resumo -->
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Último scan</span>
+            <span class="material-symbols-outlined stat-icon">schedule</span>
+          </div>
+          <p class="stat-value mono">12/10/2023 14:30</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Hosts encontrados</span>
+            <span class="material-symbols-outlined stat-icon">dns</span>
+          </div>
+          <p class="stat-number">45</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Alterações detectadas</span>
+            <span class="material-symbols-outlined stat-icon danger">warning</span>
+          </div>
+          <p class="stat-number danger">3</p>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-header">
+            <span class="stat-label">Status da rede</span>
+            <span class="material-symbols-outlined stat-icon success">check_circle</span>
+          </div>
+          <p class="stat-status success">Operacional</p>
+        </article>
+      </section>
+
+      <!-- Últimas alterações -->
+      <section class="changes-section">
+        <div class="section-header">
+          <div>
+            <h3>Últimas alterações detectadas</h3>
+            <p>Resumo das variações identificadas no último ciclo de varredura.</p>
+          </div>
+        </div>
+
+        <div class="changes-list">
+          <div class="change-item">
+            <div class="change-info">
+              <span class="material-symbols-outlined change-icon success">add_box</span>
+              <strong>Novo host:</strong>
+              <span class="mono">192.168.0.45</span>
+            </div>
+            <span class="change-time">Detectado há 15min</span>
+          </div>
+
+          <div class="change-item">
+            <div class="change-info">
+              <span class="material-symbols-outlined change-icon danger">door_open</span>
+              <strong>Porta aberta:</strong>
+              <span class="mono">192.168.0.10 → 8080/tcp</span>
+            </div>
+            <span class="change-time">Detectado há 15min</span>
+          </div>
+
+          <div class="change-item">
+            <div class="change-info">
+              <span class="material-symbols-outlined change-icon muted">delete_sweep</span>
+              <strong>Host removido:</strong>
+              <span class="mono">192.168.0.20</span>
+            </div>
+            <span class="change-time">Detectado há 15min</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="telainicial.js"></script>
+</body>
+</html>
