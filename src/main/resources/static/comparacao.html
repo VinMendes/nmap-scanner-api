@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Comparação | Monitor de Alterações em Rede</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+  >
+
+  <!-- Ícones -->
+  <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+  >
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/comparacao.css">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Monitor de Alterações em Rede</h1>
+    <p>Network Intelligence</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-link" href="/index.html">
+      <span class="material-symbols-outlined">home</span>
+      <span>Início</span>
+    </a>
+
+    <a class="nav-link" href="/novavarredura.html">
+      <span class="material-symbols-outlined">radar</span>
+      <span>Nova Varredura</span>
+    </a>
+
+    <a class="nav-link" href="/historico.html">
+      <span class="material-symbols-outlined">history</span>
+      <span>Histórico</span>
+    </a>
+
+    <a class="nav-link active" href="/comparacao.html">
+      <span class="material-symbols-outlined">compare_arrows</span>
+      <span>Comparação</span>
+    </a>
+  </nav>
+</aside>
+
+<!-- Topbar -->
+<header class="topbar">
+  <h2>Comparação</h2>
+
+  <div class="topbar-actions">
+    <button class="icon-button" type="button" onclick="carregarTargets()" aria-label="Atualizar">
+      <span class="material-symbols-outlined">refresh</span>
+    </button>
+  </div>
+</header>
+
+<!-- Conteúdo -->
+<main class="main-content">
+  <section class="content-container comparacao-section">
+
+    <!-- Cabeçalho -->
+    <div class="page-heading">
+      <nav class="breadcrumbs">
+        <span>Monitor de Alterações em Rede</span>
+        <span class="material-symbols-outlined">chevron_right</span>
+        <strong>Comparação</strong>
+      </nav>
+
+      <div class="page-title-row">
+        <div>
+          <h2>Comparar Varreduras</h2>
+          <p>Selecione uma rede já escaneada, escolha dois scans e veja as diferenças encontradas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card de targets -->
+    <section class="compare-card">
+      <div class="card-header">
+        <div>
+          <h3>1. Escolha o target/rede</h3>
+          <p>Targets disponíveis com base nos scans salvos.</p>
+        </div>
+
+        <span class="material-symbols-outlined">lan</span>
+      </div>
+
+      <div id="targetsContainer" class="targets-list">
+        <div class="loading-box">
+          Carregando targets...
+        </div>
+      </div>
+    </section>
+
+    <!-- Card de seleção de scans -->
+    <section id="scansCard" class="compare-card disabled-card">
+      <div class="card-header">
+        <div>
+          <h3>2. Escolha dois scans</h3>
+          <p id="selectedTargetText">Selecione um target primeiro.</p>
+        </div>
+
+        <span class="material-symbols-outlined">difference</span>
+      </div>
+
+      <div class="scan-select-grid">
+        <div class="form-group">
+          <label for="scanBase">Scan base</label>
+          <select id="scanBase" disabled>
+            <option value="">Selecione o scan base</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="scanNovo">Scan novo/comparado</label>
+          <select id="scanNovo" disabled>
+            <option value="">Selecione o scan novo</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="scansResumo" class="scans-resumo">
+        Nenhum target selecionado.
+      </div>
+
+      <button
+              id="btnComparar"
+              class="button button-primary compare-button"
+              type="button"
+              disabled
+              onclick="compararScans()"
+      >
+        <span class="material-symbols-outlined">compare_arrows</span>
+        Comparar Scans
+      </button>
+    </section>
+
+    <!-- Resultado da comparação -->
+    <section id="resultadoComparacaoCard" class="compare-card result-card hidden">
+      <div class="card-header">
+        <div>
+          <h3>3. Resultado da comparação</h3>
+          <p id="resultadoSubtitulo">Diferenças encontradas entre os scans selecionados.</p>
+        </div>
+
+        <span class="material-symbols-outlined">analytics</span>
+      </div>
+
+      <div id="resultadoComparacao" class="resultado-comparacao">
+        Resultado ainda não carregado.
+      </div>
+    </section>
+
+  </section>
+</main>
+
+<script src="/js/comparacao.js"></script>
+</body>
+</html>

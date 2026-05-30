@@ -5,6 +5,7 @@ import com.mendesvincs.nmapscannerapi.scan.parser.NmapXmlParser;
 import com.mendesvincs.nmapscannerapi.scan.repository.ScanResultRepository;
 import com.mendesvincs.nmapscannerapi.scan.scanner.NmapCommandExecutor;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -42,11 +43,30 @@ public class NmapScannerService {
         return scanResultRepository.findAllByTargetOrderByScanDateDesc(target);
     }
 
+    public List<String> findAllTargets() {
+        return scanResultRepository.findAllByOrderByScanDateDesc()
+                .stream()
+                .map(ScanResult::getTarget)
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(target -> !target.isBlank())
+                .distinct()
+                .toList();
+    }
+
     public ScanResult findById(String scanId) {
         return scanResultRepository.findById(scanId)
                 .orElseThrow(() -> new ResponseStatusException(
                         NOT_FOUND,
                         "Scan not found: " + scanId
+                ));
+    }
+
+    public ScanResult findLatest() {
+        return scanResultRepository.findFirstByOrderByScanDateDesc()
+                .orElseThrow(() -> new ResponseStatusException(
+                        NOT_FOUND,
+                        "No scans found"
                 ));
     }
 }

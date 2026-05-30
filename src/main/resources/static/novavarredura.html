@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Nova Varredura | Monitor de Alterações</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/novavarredura.css">
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Monitor de Alterações em Rede</h1>
+    <p>Network Intelligence</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-link" href="/index.html">
+      <span class="material-symbols-outlined">home</span>
+      <span>Início</span>
+    </a>
+
+    <a class="nav-link active" href="novavarredura.html">
+      <span class="material-symbols-outlined">radar</span>
+      <span>Nova Varredura</span>
+    </a>
+
+    <a class="nav-link" href="historico.html">
+      <span class="material-symbols-outlined">history</span>
+      <span>Histórico</span>
+    </a>
+
+    <a class="nav-link" href="comparacao.html">
+      <span class="material-symbols-outlined">analytics</span>
+      <span>Comparação</span>
+    </a>
+  </nav>
+</aside>
+
+<!-- Topbar -->
+<header class="topbar">
+  <h2>Nova Varredura</h2>
+</header>
+
+<!-- Conteúdo -->
+<main class="main-content">
+
+  <section class="scan-section">
+
+    <div class="scan-card-form">
+
+      <div class="form-header">
+        <span class="material-symbols-outlined">radar</span>
+        <h3>Executar nova varredura</h3>
+        <p>Informe o alvo que será analisado pelo Nmap</p>
+      </div>
+
+      <div class="form-group">
+        <label for="target">Target</label>
+        <input
+                type="text"
+                id="target"
+                placeholder="Ex: localhost, 127.0.0.1 ou 192.168.0.0/24"
+        >
+      </div>
+
+      <button type="button" class="btn-primary" onclick="rodarScan()">
+        <span class="material-symbols-outlined">play_arrow</span>
+        Rodar Scan
+      </button>
+
+      <p id="statusMessage" class="status-message"></p>
+
+    </div>
+
+    <footer class="warning">
+      ⚠ Use apenas em redes autorizadas
+    </footer>
+
+  </section>
+
+  <!-- Resultado do scan aparece aqui na mesma tela -->
+  <section class="resultado-section">
+
+    <div class="resultado-header">
+      <div>
+        <h3>Resultado da Varredura</h3>
+        <p>Os hosts e portas encontrados serão exibidos abaixo.</p>
+      </div>
+
+      <span class="material-symbols-outlined">dns</span>
+    </div>
+
+    <div id="resultadoContainer" class="resultado-container">
+      <div class="empty-state">
+        <span class="material-symbols-outlined">travel_explore</span>
+        <p>Nenhuma varredura executada ainda.</p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="/js/novavarredura.js"></script>
+</body>
+</html>

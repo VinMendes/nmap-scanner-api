@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Monitor de Alterações em Rede</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+  >
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+  >
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/telainicial.css" />
+</head>
+
+<body>
+
+<!-- Menu lateral -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Monitor de Alterações em Rede</h1>
+    <p>Monitoramento de Rede</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-link active" href="/index.html">
+      <span class="material-symbols-outlined">home</span>
+      <span>Início</span>
+    </a>
+
+    <a class="nav-link" href="novavarredura.html">
+      <span class="material-symbols-outlined">radar</span>
+      <span>Nova Varredura</span>
+    </a>
+
+    <a class="nav-link" href="historico.html">
+      <span class="material-symbols-outlined">history</span>
+      <span>Histórico</span>
+    </a>
+
+    <a class="nav-link" href="/comparacao.html">
+      <span class="material-symbols-outlined">compare_arrows</span>
+      <span>Comparação</span>
+    </a>
+  </nav>
+</aside>
+
+<!-- Barra superior -->
+<header class="topbar">
+  <div class="topbar-title">
+    <span>Início</span>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="search-box">
+      <span class="material-symbols-outlined">search</span>
+      <input
+              id="home-search"
+              type="text"
+              placeholder="Pesquisar hosts, IPs ou serviços..."
+      />
+    </div>
+
+    <button class="icon-button" type="button" onclick="carregarTelaInicial()" aria-label="Atualizar">
+      <span class="material-symbols-outlined">refresh</span>
+    </button>
+  </div>
+</header>
+
+<!-- Conteúdo principal -->
+<main class="main-content">
+  <div class="content-container">
+
+    <!-- Cabeçalho da página -->
+    <section class="hero-section">
+      <div class="hero-text">
+        <h2>Visão Geral da Rede</h2>
+        <p>Sistema de detecção e visualização de varreduras de rede com dados do último scan realizado.</p>
+      </div>
+
+      <div class="hero-actions">
+        <a class="button button-primary" href="/novavarredura.html">
+          <span class="material-symbols-outlined">add_circle</span>
+          Nova Varredura
+        </a>
+
+        <a class="button button-secondary" href="/historico.html">
+          <span class="material-symbols-outlined">history</span>
+          Ver Histórico
+        </a>
+      </div>
+    </section>
+
+    <!-- Cards de resumo -->
+    <section class="stats-grid">
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Último scan</span>
+          <span class="material-symbols-outlined stat-icon">schedule</span>
+        </div>
+
+        <p id="ultimoScanData" class="stat-value mono">Carregando...</p>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Hosts encontrados</span>
+          <span class="material-symbols-outlined stat-icon">dns</span>
+        </div>
+
+        <p id="hostsEncontrados" class="stat-number">0</p>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Portas abertas</span>
+          <span class="material-symbols-outlined stat-icon danger">door_open</span>
+        </div>
+
+        <p id="portasAbertas" class="stat-number danger">0</p>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Status da rede</span>
+          <span class="material-symbols-outlined stat-icon success">check_circle</span>
+        </div>
+
+        <p id="statusRede" class="stat-status success">Carregando</p>
+      </article>
+    </section>
+
+    <!-- Resumo do último scan -->
+    <section class="changes-section">
+      <div class="section-header">
+        <div>
+          <h3>Resumo do último scan</h3>
+          <p>Hosts e portas encontrados na varredura mais recente.</p>
+        </div>
+
+        <div id="scanTargetBadge" class="scan-target-badge mono">
+          Target não carregado
+        </div>
+      </div>
+
+      <div id="ultimoScanContainer" class="changes-list">
+        <div class="change-item">
+          <div class="change-info">
+            <span class="material-symbols-outlined change-icon muted">hourglass_empty</span>
+            <strong>Carregando dados do último scan...</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script src="/js/telainicial.js"></script>
+</body>
+</html>

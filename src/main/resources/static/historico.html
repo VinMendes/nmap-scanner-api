@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Histórico | Monitor de Alterações em Rede</title>
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+  />
+
+  <!-- Ícones -->
+  <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/historico.css" />
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Monitor de Alterações em Rede</h1>
+    <p>Network Intelligence</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="nav-link" href="index.html">
+      <span class="material-symbols-outlined">home</span>
+      <span>Início</span>
+    </a>
+
+    <a class="nav-link" href="novavarredura.html">
+      <span class="material-symbols-outlined">radar</span>
+      <span>Nova Varredura</span>
+    </a>
+
+    <a class="nav-link active" href="historico.html">
+      <span class="material-symbols-outlined">history</span>
+      <span>Histórico</span>
+    </a>
+
+    <a class="nav-link" href="comparacao.html">
+      <span class="material-symbols-outlined">compare_arrows</span>
+      <span>Comparação</span>
+    </a>
+  </nav>
+</aside>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="search-box">
+      <span class="material-symbols-outlined">search</span>
+      <input
+              id="historico-search"
+              type="text"
+              placeholder="Buscar por target, IP, ID ou data..."
+      />
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <button class="icon-button" type="button" aria-label="Atualizar" onclick="carregarScans()">
+      <span class="material-symbols-outlined">refresh</span>
+    </button>
+
+    <button class="icon-button" type="button" aria-label="Configurações">
+      <span class="material-symbols-outlined">settings</span>
+    </button>
+  </div>
+</header>
+
+<!-- Conteúdo principal -->
+<main class="main-content">
+  <section class="content-container page-section">
+
+    <!-- Cabeçalho -->
+    <div class="page-heading">
+      <nav class="breadcrumbs" aria-label="Caminho da página">
+        <span>Monitor de Alterações em Rede</span>
+        <span class="material-symbols-outlined">chevron_right</span>
+        <strong>Histórico</strong>
+      </nav>
+
+      <div class="page-title-row">
+        <div>
+          <h2>Histórico</h2>
+          <p>Registros de varreduras de rede realizadas.</p>
+        </div>
+
+        <a class="button button-dark" href="/pages/nova-varredura.html">
+          <span class="material-symbols-outlined">add</span>
+          Nova Varredura
+        </a>
+      </div>
+    </div>
+
+    <!-- Cards de resumo -->
+    <section class="stats-grid" aria-label="Resumo do histórico">
+      <article class="stat-card">
+        <p>Total de Scans</p>
+        <strong id="totalScans">0</strong>
+      </article>
+
+      <article class="stat-card">
+        <p>Hosts Mapeados</p>
+        <strong id="totalHosts">0</strong>
+      </article>
+
+      <article class="stat-card">
+        <p>Portas Abertas</p>
+        <strong id="openPorts" class="muted-highlight">0</strong>
+      </article>
+
+      <article class="stat-card">
+        <p>Portas Filtradas</p>
+        <strong id="filteredPorts">0</strong>
+      </article>
+    </section>
+
+    <!-- Tabela principal -->
+    <section class="table-card">
+      <div class="table-card-header">
+        <h3>Varreduras Realizadas</h3>
+
+        <div class="table-actions">
+          <button class="icon-button" type="button" aria-label="Atualizar" onclick="carregarScans()">
+            <span class="material-symbols-outlined">refresh</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="history-table">
+          <thead>
+          <tr>
+            <th>Target</th>
+            <th>Data</th>
+            <th class="text-center">Hosts</th>
+            <th class="text-center">Portas abertas</th>
+            <th class="text-center">Portas filtradas</th>
+            <th class="text-right">Ações</th>
+          </tr>
+          </thead>
+
+          <tbody id="historicoBody">
+          <tr>
+            <td colspan="6" class="text-center">
+              Carregando histórico...
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <span id="history-count">Mostrando 0 registros</span>
+
+        <div class="pagination">
+          <button type="button" disabled>
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+
+          <button class="active" type="button">1</button>
+
+          <button type="button" disabled>
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <footer class="page-footer">
+    <p>NetDiff Monitor • Network Intelligence Protocol Active</p>
+  </footer>
+</main>
+
+<script src="/js/historico.js"></script>
+</body>
+</html>

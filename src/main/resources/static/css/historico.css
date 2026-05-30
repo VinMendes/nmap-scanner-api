@@ -378,3 +378,44 @@
     flex-direction: column;
   }
 }
+
+.text-right {
+  text-align: right !important;
+}
+
+.mono {
+  font-family: "JetBrains Mono", Consolas, monospace;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.loading-row td,
+.error-row td,
+.empty-row-visible td {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.button-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.button-small .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.badge-success {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #047857;
+}
+
+.badge-filtered {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #9a5f00;
+}

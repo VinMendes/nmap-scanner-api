@@ -1,90 +1,163 @@
-document.addEventListener("DOMContentLoaded", () => {
+async function rodarScan() {
+  const targetInput = document.getElementById("target");
+  const statusMessage = document.getElementById("statusMessage");
+  const resultadoContainer = document.getElementById("resultadoContainer");
+  const botao = document.querySelector(".btn-primary");
 
-  console.log("🚀 Nova Varredura iniciada");
+  const target = targetInput.value.trim();
 
-  // ===============================
-  // ELEMENTOS DO HTML
-  // ===============================
-  const form = document.getElementById("scan-form");
-
-  const inputNome = document.getElementById("scan-name");
-  const inputTarget = document.getElementById("scan-target");
-
-  const optHosts = document.getElementById("hosts");
-  const optPorts = document.getElementById("ports");
-  const optServices = document.getElementById("services");
-  const optHostname = document.getElementById("hostname");
-
-  // ===============================
-  // EVENTO DE SUBMIT
-  // ===============================
-  if (form) {
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      console.log("📤 Enviando nova varredura...");
-
-      const payload = montarPayload();
-
-      console.log("📦 Payload:", payload);
-
-      enviarScan(payload);
-    });
+  if (!target) {
+    statusMessage.textContent = "Informe um target antes de rodar o scan.";
+    return;
   }
 
-  // ===============================
-  // FUNÇÃO: MONTAR PAYLOAD
-  // ===============================
-  function montarPayload() {
+  statusMessage.textContent = "Rodando scan... aguarde.";
+  resultadoContainer.innerHTML = "";
+  botao.disabled = true;
 
-    return {
-      name: inputNome?.value || "",
-      target: inputTarget?.value || "",
-      options: {
-        hosts: optHosts?.checked || false,
-        ports: optPorts?.checked || false,
-        services: optServices?.checked || false,
-        hostname: optHostname?.checked || false
-      }
-    };
-  }
-
-  // ===============================
-  // FUNÇÃO: ENVIAR PARA API
-  // ===============================
-  function enviarScan(payload) {
-
-    fetch("http://localhost:8000/api/scans", {
+  try {
+    const response = await fetch("/api/scans/run", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(payload)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Erro ao enviar varredura");
-        }
-        return response.json();
+      body: JSON.stringify({
+        target: target
       })
-      .then(data => {
+    });
 
-        console.log("✅ Scan criado:", data);
+    if (!response.ok) {
+      throw new Error("Erro ao rodar scan. Status: " + response.status);
+    }
 
-        // Feedback visual
-        alert("Varredura iniciada com sucesso!");
+    const scan = await response.json();
 
-        // ===============================
-        // REDIRECIONAMENTO (IMPORTANTE)
-        // ===============================
-        // aqui você pode mandar pro resultado ou dashboard
-        window.location.href = "resultadoScan.html";
+    statusMessage.textContent = "Scan finalizado com sucesso.";
 
-      })
-      .catch(error => {
-        console.error("❌ Erro:", error);
-        alert("Erro ao iniciar varredura");
-      });
+    renderizarScan(scan, resultadoContainer);
+
+  } catch (error) {
+    statusMessage.textContent = "Erro: " + error.message;
+
+    resultadoContainer.innerHTML = `
+      <div class="empty-state">
+        <span class="material-symbols-outlined">error</span>
+        <p>Não foi possível executar a varredura.</p>
+      </div>
+    `;
+
+  } finally {
+    botao.disabled = false;
+  }
+}
+
+function renderizarScan(scan, container) {
+  const card = document.createElement("div");
+  card.className = "scan-card";
+
+  const target = scan.target || scan.alvo || "Target não informado";
+
+  const data = formatarData(
+      scan.scanDate || scan.data_scan || scan.createdAt
+  );
+
+  card.innerHTML = `
+    <div class="scan-header">
+      <div>
+        <div class="target">${target}</div>
+        <div class="date">ID: ${scan.id || "sem id"}</div>
+      </div>
+
+      <div class="date">${data}</div>
+    </div>
+  `;
+
+  const hosts = scan.hosts || [];
+
+  if (hosts.length === 0) {
+    card.innerHTML += `
+      <div class="empty-state">
+        <span class="material-symbols-outlined">dns</span>
+        <p>Nenhum host encontrado nesse scan.</p>
+      </div>
+    `;
+
+    container.appendChild(card);
+    return;
   }
 
-});
+  hosts.forEach(host => {
+    const hostBlock = document.createElement("div");
+    hostBlock.className = "host-block";
+
+    const portas = host.ports || host.portas || [];
+
+    hostBlock.innerHTML = `
+      <div class="ip">
+        Host: ${host.ip || "IP não informado"}
+
+        <span class="badge ${host.status || "unknown"}">
+          ${host.status || "unknown"}
+        </span>
+      </div>
+    `;
+
+    if (portas.length === 0) {
+      hostBlock.innerHTML += `
+        <div class="no-ports">
+          Nenhuma porta encontrada para este host.
+        </div>
+      `;
+
+      card.appendChild(hostBlock);
+      return;
+    }
+
+    hostBlock.innerHTML += `
+      <table>
+        <thead>
+          <tr>
+            <th>Porta</th>
+            <th>Protocolo</th>
+            <th>Estado</th>
+            <th>Serviço</th>
+            <th>Produto</th>
+            <th>Versão</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${portas.map(port => `
+            <tr>
+              <td>${port.port || port.porta || "-"}</td>
+              <td>${port.protocol || port.protocolo || "-"}</td>
+              <td>
+                <span class="badge ${port.state || port.estado || "unknown"}">
+                  ${port.state || port.estado || "unknown"}
+                </span>
+              </td>
+              <td>${port.service || port.servico || "-"}</td>
+              <td>${port.product || port.produto || "-"}</td>
+              <td>${port.version || port.versao || "-"}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    `;
+
+    card.appendChild(hostBlock);
+  });
+
+  container.appendChild(card);
+}
+
+function formatarData(dataISO) {
+  if (!dataISO) {
+    return "Data não informada";
+  }
+
+  return new Date(dataISO).toLocaleString("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "medium"
+  });
+}

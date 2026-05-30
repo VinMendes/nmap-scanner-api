@@ -28,6 +28,21 @@ public class NmapScannerController {
         return nmapScannerService.findAll();
     }
 
+    @GetMapping("/latest")
+    public ScanResult getLatestScan() {
+        return nmapScannerService.findLatest();
+    }
+
+    @GetMapping("/targets")
+    public List<String> listTargets() {
+        return nmapScannerService.findAllTargets();
+    }
+
+    @GetMapping("/by-target")
+    public List<ScanResult> listScansByTargetQuery(@RequestParam String target) {
+        return nmapScannerService.findByTarget(target);
+    }
+
     @GetMapping("/target/{target}")
     public List<ScanResult> listScansByTarget(@PathVariable String target) {
         return nmapScannerService.findByTarget(target);
@@ -37,5 +52,4 @@ public class NmapScannerController {
     public ScanResult getScan(@PathVariable String scanId) {
         return nmapScannerService.findById(scanId);
     }
-
 }
